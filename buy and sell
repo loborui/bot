@@ -1,0 +1,35 @@
+import json
+import requests
+
+# Setup API keys and URLs
+API_KEY = "YOUR_API_KEY_HERE"
+BASE_URL = "https://api.cryptocompare.com/data/price"
+
+# Setup parameters
+symbols = "BTC, ETH" # comma-separated list of symbols
+fiat_currency = "USD" # currency to convert to
+
+# Formulate request URL
+params = {
+    "fsym": symbols,
+    "tsyms": fiat_currency,
+    "api_key": API_KEY
+}
+
+# Send request and get response
+response = requests.get(BASE_URL, params=params)
+
+# Parse the response
+data = json.loads(response.text)
+
+# Get the price of each coin
+btc_price = data["BTC"][fiat_currency]
+eth_price = data["ETH"][fiat_currency]
+
+# Set up triggers
+if btc_price <= 10000:
+    # Buy Bitcoin
+    print("Buying Bitcoin...")
+
+if eth_price >= 1000:
+    # Sell
